@@ -1,11 +1,3 @@
-"""
-Contractions Dictionary Resource.
-
-This module contains a dictionary of common English contractions and their
-expanded forms. It is used by the ExpandContractionsStrategy in the
-text cleaning pipeline.
-"""
-
 CONTRACTIONS = {
     "ain't": "am not",
     "aren't": "are not",

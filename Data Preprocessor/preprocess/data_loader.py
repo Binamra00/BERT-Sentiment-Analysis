@@ -1,48 +1,14 @@
-"""
-Data Loader Module.
-
-This module is responsible for loading the raw IMDb movie review dataset
-from its directory structure into a structured pandas DataFrame. It handles
-file iteration, text extraction, and label/rating parsing from filenames.
-"""
-
 import os
 import re
 import pandas as pd
 from tqdm import tqdm
 
 class DataLoader:
-    """
-    Handles loading the raw IMDb dataset into a structured DataFrame.
-    """
     def __init__(self, dataset_path: str):
-        """
-        Initializes the DataLoader with the path to the dataset.
-
-        Args:
-            dataset_path (str): The root path of the aclImdb dataset.
-        """
         self.dataset_path = dataset_path
         print(f"DataLoader initialized for path: {self.dataset_path}")
 
     def load_and_structure(self) -> pd.DataFrame:
-        """
-        Iterates through the dataset directories (train/test, pos/neg),
-        reads each review, parses metadata from the filename, and compiles
-        it all into a single pandas DataFrame.
-
-        The final DataFrame will include a 'split' column to identify the
-        original train/test partition of each review.
-
-        Returns:
-            pd.DataFrame: A DataFrame with columns ['review_text', 
-                                                 'sentiment_label', 
-                                                 'star_rating', 
-                                                 'split'].
-        
-        Raises:
-            FileNotFoundError: If the specified dataset path does not exist.
-        """
         if not os.path.exists(self.dataset_path):
             raise FileNotFoundError(
                 f"The specified dataset path does not exist: {self.dataset_path}"

@@ -1,50 +1,14 @@
-"""
-Data Partitioner Module.
-
-This module is responsible for splitting the full, loaded dataset into
-training, validation, and test sets according to the project specifications.
-It respects the original train/test split provided by the dataset creators.
-"""
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-class DataPartitioner:
-    """
-    Partitions a DataFrame into training, validation, and test sets.
-    """
-    def __init__(self, validation_split_ratio: float = 0.1, random_state: int = 42):
-        """
-        Initializes the DataPartitioner.
 
-        Args:
-            validation_split_ratio (float): The proportion of the original training
-                                            data to be used for validation.
-            random_state (int): A seed for the random number generator to ensure
-                                reproducibility of the split.
-        """
+class DataPartitioner:
+    def __init__(self, validation_split_ratio: float = 0.1, random_state: int = 42):
         self.validation_split_ratio = validation_split_ratio
         self.random_state = random_state
         print(f"DataPartitioner initialized with a {validation_split_ratio:.0%} validation split ratio.")
 
     def partition(self, df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-        """
-        Splits the DataFrame into three sets: train, validation, and test.
-
-        It first separates the original held-out test set. Then, it splits
-        the original training set into a new, smaller training set and a
-        validation set.
-
-        Args:
-            df (pd.DataFrame): The full DataFrame loaded by DataLoader,
-                               containing the 'split' column.
-
-        Returns:
-            A tuple containing three DataFrames: (train_df, validation_df, test_df).
-        
-        Raises:
-            ValueError: If the 'split' column is not found in the DataFrame.
-        """
         if 'split' not in df.columns:
             raise ValueError("Input DataFrame must contain a 'split' column.")
 

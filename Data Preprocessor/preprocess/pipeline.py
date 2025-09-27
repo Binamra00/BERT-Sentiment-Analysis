@@ -1,10 +1,3 @@
-"""
-Preprocessing Pipeline Facade.
-
-This module provides a single, high-level interface (a 'Facade') to run the
-entire data preprocessing workflow. It integrates the DataLoader, TextCleaner,
-and DataPartitioner to provide a seamless, end-to-end process.
-"""
 
 import os
 import pandas as pd
@@ -21,18 +14,9 @@ from .text_cleaner import (
 )
 from .partitioner import DataPartitioner
 
-class PreprocessingPipeline:
-    """
-    A Facade class that orchestrates the entire preprocessing workflow.
-    """
-    def __init__(self, input_path: str, output_path: str):
-        """
-        Initializes the pipeline with input and output paths.
 
-        Args:
-            input_path (str): The root path of the raw aclImdb dataset.
-            output_path (str): The directory where the processed CSV files will be saved.
-        """
+class PreprocessingPipeline:
+    def __init__(self, input_path: str, output_path: str):
         self.input_path = input_path
         self.output_path = output_path
         
@@ -59,13 +43,6 @@ class PreprocessingPipeline:
         print("-" * 50)
 
     def run(self):
-        """
-        Executes the full preprocessing pipeline:
-        1. Loads the data.
-        2. Cleans the text data.
-        3. Partitions the data into train, validation, and test sets.
-        4. Saves the final datasets to the specified output path.
-        """
         # Step 1: Load the raw data
         print("\n--- Step 1: Loading Data ---")
         raw_df = self.loader.load_and_structure()

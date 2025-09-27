@@ -1,1 +1,5 @@
-# This file makes the 'resources' directory a Python package.
+from .contractions import CONTRACTIONS
+
+__all__ = [
+    'CONTRACTIONS',
+]
