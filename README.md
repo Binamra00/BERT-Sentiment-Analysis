@@ -83,6 +83,8 @@ Sentiment Analysis
 ├── run_probability_generation.py   # Phase 2/3: Script to generate probabilities
 └── Readme.md
 ```
+#### Added `Sentiment Analysis/notebooks` folder. Contains google colab notebooks for the experiments.
+
 ## How to Run the Analysis
 
 This project is designed to be run in a sequential, 3-phase workflow.
