@@ -93,6 +93,8 @@ This project is designed to be run in a sequential, 3-phase workflow.
 
 You will need to have your data prepared in `data/processed/` and your GloVe embeddings in `data/embeddings/`. Ensure all paths in the `.yaml` config files point to the correct locations.
 
+Download the Glove embeddings i.e. glove.6B.300d.txt and place it inside the `data/embeddings` folder.
+
 Install the required libraries:
 
 ```bash
