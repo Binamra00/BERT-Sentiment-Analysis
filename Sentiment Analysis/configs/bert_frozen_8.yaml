@@ -1,0 +1,23 @@
+# Configuration for BERT with 8 frozen layers
+
+model:
+  type: "bert"
+  pretrained_model_name: "bert-base-uncased"
+  num_classes: 2
+  dropout_prob: 0.1
+  freeze_embed: true
+  freeze_layers: 8        
+
+data:
+  train_path: "data/processed/train_clean.csv"
+  val_path: "data/processed/validation_clean.csv"
+  test_path: "data/processed/test_clean.csv"
+
+training:
+  run_name: "bert_frozen_8"   
+  device: "cuda"
+  num_epochs: 4
+  batch_size: 16
+  max_length: 512
+  learning_rate: 0.00002
+  warmup_proportion: 0.1
