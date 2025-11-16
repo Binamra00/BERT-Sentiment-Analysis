@@ -41,7 +41,7 @@ compared to the uncalibrated ones.
 ## Project Structure
 
 ```text
-.
+Sentiment Analysis
 ├── configs/
 │   ├── cnn_baseline.yaml
 │   ├── cnn_non_static.yaml
