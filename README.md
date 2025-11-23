@@ -108,7 +108,6 @@ Beyond accuracy, the project is divided into three phases:
 - **Phase 3: Ordinal Mapping**  
   Test the usefulness of the calibrated probabilities on a downstream task by mapping them to 1–5 star ratings, measured by RMSE and MAE.
 
----
 
 ## Key Findings
 
@@ -131,7 +130,6 @@ When mapped to 1–5 star ratings, the calibrated probabilities reduced:
 
 compared to the uncalibrated ones.
 
----
 
 ## Project Structure
 
@@ -184,7 +182,6 @@ Sentiment Analysis
 
 This project is designed to be run in a sequential, 3-phase workflow.
 
----
 
 ### Prerequisites
 
