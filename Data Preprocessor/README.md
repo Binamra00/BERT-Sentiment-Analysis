@@ -60,7 +60,7 @@ My Drive/
 |
 └── CSE 6363 ML Project/
 |--- aclImdb/            <-- Raw dataset folder
-└── Data Preprocessor/  <-- Your codebase folder
+└── Data Preprocessor/  <--  codebase folder
 |--- main.py
 |--- preprocess/
 └── resources/
@@ -84,6 +84,3 @@ validation_clean.csv: The validation set for hyperparameter tuning (2,500 review
 test_clean.csv: The final, held-out test set for unbiased evaluation (25,000 reviews).
 
 Each CSV file contains the following columns: review_text, sentiment_label, and star_rating.
-
-## Acknowledgement
-This project was developed in a collaborative partnership between the author and Google's Gemini. The overall architecture, design patterns, and strategic direction were conceived by the author, who then leveraged Gemini as an AI programming partner. Through an iterative process of instruction and feedback, Gemini assisted in generating, refactoring, and documenting the code to bring the author's vision to life.
