@@ -1,9 +1,7 @@
 # Understanding the Impact of BERT Layer Freezing on Accuracy and Speed of Sentiment Analysis
-
----
 ## **IMDb Movie Review Preprocessing Pipeline**
 This project contains a robust, modular, and reusable Python pipeline for cleaning, structuring, and preparing the Stanford Large Movie Review (IMDb) Dataset for sentiment analysis tasks. The entire pipeline is built with a focus on software engineering best practices, including the use of the Strategy and Facade design patterns to ensure the code is maintainable and extensible.
----
+
 ## Features
 Modular Architecture: Each step of the process (loading, cleaning, partitioning) is handled by a separate, single-responsibility module.
 
