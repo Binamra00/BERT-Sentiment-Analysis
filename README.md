@@ -65,7 +65,7 @@ My Drive/
 |
 └── CSE 6363 ML Project/
 |--- aclImdb/            <-- Raw dataset folder
-└── Data Preprocessor/  <-- Your codebase folder
+└── Data Preprocessor/  <--  codebase folder
 |--- main.py
 |--- preprocess/
 └── resources/
