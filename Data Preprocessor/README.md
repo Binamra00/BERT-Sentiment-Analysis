@@ -46,25 +46,14 @@ These are standard in Google Colab environments. No special installation is typi
 This pipeline is designed to be run from Google Colab, using data stored in your Google Drive.
 
 ## Folder Setup
-Download or clone the CSE 6363 ML Project repository folder and upload it to your Google Drive. This folder contains the Data Preprocessor codebase.
+Download or clone the BERT-Sentiment-Analysis repository folder and upload it to your Google Drive. This folder contains the Data Preprocessor codebase.
 
 Download the Large Movie Review Dataset (aclImdb_v1.tar.gz) from its source (e.g., Stanford AI Lab).
 
 Unzip the dataset. You will get a folder named aclImdb.
 
-Place the unzipped aclImdb folder inside the CSE 6363 ML Project folder on your Google Drive.
+Place the unzipped aclImdb folder inside the BERT-Sentiment-Analysis folder on your Google Drive.
 
-Your final Google Drive structure should look like this:
-```
-My Drive/
-|
-└── CSE 6363 ML Project/
-|--- aclImdb/            <-- Raw dataset folder
-└── Data Preprocessor/  <--  codebase folder
-|--- main.py
-|--- preprocess/
-└── resources/
-```
 ## Running the Pipeline
 Open main.py (located inside the Data Preprocessor folder) in Google Colaboratory.
 
