@@ -87,6 +87,8 @@ test_clean.csv: The final, held-out test set for unbiased evaluation (25,000 rev
 
 Each CSV file contains the following columns: review_text, sentiment_label, and star_rating.
 
+---
+
 ## **Sentiment Analysis**
 
 This project analyzes the trade-off between model accuracy and training efficiency in sentiment analysis. It uses the IMDb movie review dataset to compare a CNN baseline against various BERT fine-tuning strategies, with a focus on layer freezing.
