@@ -1,126 +1,211 @@
 # Understanding the Impact of BERT Layer Freezing on Accuracy and Speed of Sentiment Analysis
 
+This repository has two tightly connected components:
 
-## **IMDb Movie Review Preprocessing Pipeline**
-**This project contains a robust, modular, and reusable Python pipeline for cleaning, structuring, and preparing the Stanford Large Movie Review (IMDb) Dataset for sentiment analysis tasks. The entire pipeline is built with a focus on software engineering best practices, including the use of the Strategy and Facade design patterns to ensure the code is maintainable and extensible.**
+1. **IMDb Data Preprocessing Pipeline** – a reusable, modular pipeline for preparing the Stanford Large Movie Review (IMDb) dataset.  
+2. **Sentiment Analysis Experiments** – code to study how freezing different numbers of BERT layers affects accuracy, training speed, and downstream tasks.
+
+The typical workflow is:
+
+**Raw IMDb data → Preprocessing Pipeline → Clean CSV files → Sentiment Analysis & BERT experiments**
 
 ---
 
-## Features
-Modular Architecture: Each step of the process (loading, cleaning, partitioning) is handled by a separate, single-responsibility module.
+## 1. IMDb Movie Review Preprocessing Pipeline
 
-- Flexible Cleaning Pipeline: Utilizes the Strategy Pattern to allow for easy addition, removal, or modification of text cleaning steps.
+A robust, modular Python pipeline for cleaning, structuring, and preparing the **Stanford Large Movie Review (IMDb) Dataset** for sentiment analysis.  
+It is built with software engineering best practices, including the **Strategy** and **Facade** design patterns, to keep the codebase maintainable and extensible.
 
-- Simple Execution: A single entry point (main.py) and a Facade Pattern (pipeline.py) hide the system's complexity, making it easy to run the entire workflow.
+### 1.1 Features
 
-- Data-Driven: The pipeline is designed to preserve critical linguistic features for sentiment analysis (e.g., no stop word removal, no stemming).
+- **Modular architecture**  
+  Each step (loading, cleaning, partitioning) is handled by its own single-responsibility module.
 
-- Google Colab Ready: Includes instructions and path management tailored for a Google Colab and Google Drive environment.
+- **Flexible cleaning pipeline (Strategy Pattern)**  
+  Text cleaning steps are encapsulated as strategies, making it easy to add, remove, or modify operations.
 
-## Directory Structure
-The project is organized into two main Python packages (preprocess and resources) and a main execution script.
+- **Simple execution (Facade Pattern)**  
+  A single entry point (`main.py`) and a facade (`pipeline.py`) hide internal complexity and orchestrate the workflow.
 
-```
+- **Data-driven design**  
+  The pipeline preserves critical linguistic features for sentiment analysis  
+  (e.g., **no stop word removal**, **no stemming**).
+
+- **Google Colab friendly**  
+  Includes instructions and path handling tailored for Google Colab + Google Drive.
+
+### 1.2 Directory Structure
+
+The preprocessing code is organized into two main packages (`preprocess` and `resources`) and a main script:
+
+```text
 Data Preprocessor/
 |
 |--- preprocess/
-|    |--- init.py        
-|    |--- data_loader.py      # Module for loading and structuring raw data
-|    |--- partitioner.py      # Module for splitting data into train/val/test sets
-|    |--- pipeline.py         # The main Facade that orchestrates the workflow
+|    |--- __init__.py        
+|    |--- data_loader.py      # Load and structure raw IMDb data
+|    |--- partitioner.py      # Split data into train/val/test sets
+|    |--- pipeline.py         # Facade that orchestrates the full workflow
 |    |--- text_cleaner.py     # Implements the text cleaning Strategy Pattern
 |
 |--- resources/
-|    |--- init.py         
-|    |--- contractions.py     # Static resource: a dictionary of English contractions
+|    |--- __init__.py         
+|    |--- contractions.py     # Static dictionary of English contractions
 |
-|--- main.py                 # The main script to execute the entire pipeline
+|--- main.py                  # Main script to run the entire preprocessing pipeline
 ```
-## Prerequisites
-This project is designed to run in a Python 3 environment. The primary dependency is the Pandas library for data manipulation and tqdm for progress bars.
+### 1.3 Prerequisites
 
-Python 3.x
+The pipeline runs in a Python 3 environment and uses:
 
-Pandas
+- Python 3.x  
+- `pandas`  
+- `tqdm`  
 
-tqdm
-
-These are standard in Google Colab environments. No special installation is typically required.
-
-## Setup and Execution
-This pipeline is designed to be run from Google Colab, using data stored in your Google Drive.
-
-## Folder Setup
-Download or clone the BERT-Sentiment-Analysis repository folder and upload it to your Google Drive. This folder contains the Data Preprocessor codebase.
-
-Download the Large Movie Review Dataset (aclImdb_v1.tar.gz) from its source (e.g., Stanford AI Lab).
-
-Unzip the dataset. You will get a folder named aclImdb.
-
-Place the unzipped aclImdb folder inside the BERT-Sentiment-Analysis folder on your Google Drive.
-
-## Running the Pipeline
-Open main.py (located inside the Data Preprocessor folder) in Google Colaboratory.
-
-If it's your first time in the session, you may be prompted to mount your Google Drive. Authorize it when asked.
-
-Run all the cells in the notebook (Runtime > Run all).
-
-The script will automatically locate the raw data, execute the entire preprocessing pipeline, and save the output to a new folder.
-
-## Output
-Upon successful execution, the pipeline will create a new directory: Data Preprocessor/processed_data/. This directory will contain three structured, clean datasets in CSV format, ready for the next phase of model training:
-
-train_clean.csv: The training set (22,500 reviews).
-
-validation_clean.csv: The validation set for hyperparameter tuning (2,500 reviews).
-
-test_clean.csv: The final, held-out test set for unbiased evaluation (25,000 reviews).
-
-Each CSV file contains the following columns: review_text, sentiment_label, and star_rating.
+These are typically available by default in **Google Colab**, so no extra installation is usually required.
 
 ---
 
-## **Sentiment Analysis**
-**This project analyzes the trade-off between model accuracy and training efficiency in sentiment analysis. It uses the IMDb movie review dataset to compare a CNN baseline against various BERT fine-tuning strategies, with a focus on layer freezing.**
+### 1.4 Setup (Google Drive / Colab)
+
+#### 1.4.1 Get the repo code
+
+1. Download or clone the **BERT-Sentiment-Analysis** repository.
+2. Upload it to your Google Drive.
+3. The `Data Preprocessor/` folder lives inside this repository.
+
+#### 1.4.2 Download the IMDb dataset
+
+1. Download the **Large Movie Review Dataset** (`aclImdb_v1.tar.gz`) from its official source (e.g., Stanford AI Lab).
+
+#### 1.4.3 Unzip the dataset
+
+1. Extract the archive; you should get a folder named `aclImdb`.
+
+#### 1.4.4 Place the data in the repo
+
+1. Move the `aclImdb` folder into your `BERT-Sentiment-Analysis` (or equivalent) folder in Google Drive.
 
 ---
 
-Beyond accuracy, the project is divided into three phases:
+### 1.5 Running the Preprocessing Pipeline
 
-- **Phase 1: Model Training**  
-  Quantify the accuracy (F1-score) and speed (train time) trade-off when freezing 0, 4, 8, or 11 of BERT's 12 encoder layers.
+1. Open `main.py` inside the `Data Preprocessor/` folder in **Google Colab**.
+2. If prompted, **mount your Google Drive** and authorize access.
+3. Run all cells (e.g., `Runtime > Run all` in Colab).
 
-- **Phase 2: Probability Calibration**  
-  Analyze the "honesty" of the best model's probability scores and correct for overconfidence using Isotonic Regression, measuring success with Expected Calibration Error (ECE).
+The script will:
 
-- **Phase 3: Ordinal Mapping**  
-  Test the usefulness of the calibrated probabilities on a downstream task by mapping them to 1–5 star ratings, measured by RMSE and MAE.
+- Locate the raw `aclImdb` data  
+- Run the complete preprocessing pipeline  
+- Save clean, structured datasets to a new output directory  
 
+---
 
-## Key Findings
+### 1.6 Preprocessing Output
 
-### Efficiency vs. Accuracy
+After successful execution, the pipeline will create:
 
-A fully fine-tuned BERT (`bert_full_finetune`) achieved the highest F1-score (avg. **93.96%**). However, freezing the bottom 8 layers (`bert_frozen_8`) retained ~**99.5%** of this performance (avg. **93.51% F1**) while reducing training time per epoch by ~**40%**.
+```text
+Data Preprocessor/processed_data/
+```
+Inside, you will find three CSV files, ready for model training:
 
-### Probability Calibration
+- `train_clean.csv` – training set (~22,500 reviews)
+- `val_clean.csv` – validation set for hyperparameter tuning (~2,500 reviews)
+- `test_clean.csv` – held-out test set (~25,000 reviews)
 
-The best-performing model (`bert_full_finetune_seed123`) was highly overconfident.  
-Post-hoc calibration with **Isotonic Regression** reduced the Expected Calibration Error (**ECE**) by **64.23%**, making the model's confidence scores significantly more reliable.
+Each CSV contains:
 
-### Downstream Task Improvement
+- `review_text`
+- `sentiment_label`
+- `star_rating`
 
-The more "honest" calibrated probabilities were more useful for nuanced predictions.  
-When mapped to 1–5 star ratings, the calibrated probabilities reduced:
+These files are the inputs used by the **Sentiment Analysis** component described next.
 
-- **RMSE** by **3.77%**
-- **MAE** by **2.21%**
+---
 
-compared to the uncalibrated ones.
+## 2. Sentiment Analysis & BERT Layer Freezing Experiments
 
+This part of the project investigates the trade-off between **model accuracy** and **training efficiency** in sentiment analysis.
 
-## Project Structure
+It uses the preprocessed IMDb reviews to:
+
+- Compare a **CNN baseline** to various **BERT fine-tuning** strategies  
+- Evaluate the impact of **freezing 0, 4, 8, or 11 of BERT’s 12 encoder layers**  
+- Study **probability calibration** and downstream **ordinal prediction (1–5 star ratings)**  
+
+---
+
+### 2.1 Experimental Phases
+
+The analysis is divided into three sequential phases:
+
+#### Phase 1 – Model Training
+
+Quantify how freezing different numbers of BERT layers affects:
+
+- **Accuracy** (F1-score)
+- **Training speed** (time per epoch)
+
+Models include:
+
+- Fully fine-tuned BERT (`bert_full_finetune`)
+- BERT with bottom 4, 8, or 11 layers frozen
+- CNN baselines (static and non-static embeddings)
+
+---
+
+#### Phase 2 – Probability Calibration
+
+Study how “honest” the best model’s probability scores are and correct overconfidence using **Isotonic Regression**.
+
+This phase:
+
+- Measures calibration with **Expected Calibration Error (ECE)**
+- Applies post-hoc calibration to outputs of the best model
+- Produces **reliability diagrams** and **calibration plots**
+
+---
+
+#### Phase 3 – Ordinal Mapping (1–5 Star Ratings)
+
+Use the calibrated probabilities in a downstream ordinal prediction task:
+
+- Map sentiment probabilities to **1–5 star ratings**
+- Evaluate performance using **RMSE** and **MAE**
+- Compare **calibrated vs. uncalibrated** predictions
+
+---
+
+### 2.2 Key Findings (Summary)
+
+#### Efficiency vs. Accuracy
+
+- Fully fine-tuned BERT (`bert_full_finetune`) achieved the highest F1-score:  
+  **93.96% (average)**.
+- Freezing the bottom 8 layers (`bert_frozen_8`) retained about **99.5%** of this performance  
+  (**93.51% F1 on average**) while **reducing training time per epoch by ~40%**.
+
+#### Probability Calibration
+
+- The best model (`bert_full_finetune_seed123`) was **highly overconfident**.
+
+Post-hoc calibration with **Isotonic Regression**:
+
+- Reduced **ECE** by **64.23%**
+- Yielded significantly more reliable confidence scores
+
+#### Downstream Ordinal Task
+
+Using calibrated probabilities instead of raw ones improved star-rating predictions:
+
+- **RMSE** decreased by **3.77%**
+- **MAE** decreased by **2.21%**
+
+---
+
+### 2.3 Project Structure (Sentiment Analysis)
 
 ```text
 Sentiment Analysis
@@ -141,81 +226,128 @@ Sentiment Analysis
 │       └── glove.6B.300d.txt
 │
 ├── outputs/
-│   ├── models/           # (Generated) Stores trained .pt model checkpoints
-│   ├── metrics/          # (Generated) Stores experiment .json log files
-│   ├── probabilities/    # (Generated) Stores .npz probability/label files
-│   └── plots/            # (Generated) Stores .png analysis plots
+│   ├── models/           # (Generated) Trained .pt model checkpoints
+│   ├── metrics/          # (Generated) Experiment .json logs
+│   ├── probabilities/    # (Generated) .npz probability/label files
+│   └── plots/            # (Generated) .png analysis plots
 │
 ├── src/
 │   ├── models/
-│   │   ├── bert.py           # BERT model definition with layer freezing
-│   │   └── kim_cnn.py        # Kim (2014) CNN model definition
+│   │   ├── bert.py           # BERT model with layer freezing options
+│   │   └── kim_cnn.py        # Kim (2014) CNN implementation
 │   ├── engine/
 │   │   ├── trainer.py        # train_epoch function
-│   │   └── evaluator.py      # evaluate function (calculates F1, Acc, etc.)
+│   │   └── evaluator.py      # evaluate function (F1, Acc, etc.)
 │   ├── utils/
-│   │   └── cnn_utils.py      # GloVe/Vocab helpers for the CNN
+│   │   └── cnn_utils.py      # GloVe/vocabulary helpers for CNN
 │   ├── data/
-│   │   └── dataset.py        # PyTorch SentimentDataset class
+│   │   └── dataset.py        # PyTorch SentimentDataset
 │   └── postprocessing/
-│       ├── calibrate.py      # Phase 2: Runs ECE analysis
-│       └── ordinal.py        # Phase 3: Runs 1–5 star rating analysis
+│       ├── calibrate.py      # Phase 2: ECE / calibration analysis
+│       └── ordinal.py        # Phase 3: 1–5 star rating analysis
 │
-├── run_experiment.py               # Phase 1: Main script to train models
-├── run_probability_generation.py   # Phase 2/3: Script to generate probabilities
+├── notebooks/                # Google Colab notebooks for the experiments
+│   └── ...                   # (Added) Colab-ready experiment notebooks
+│
+├── run_experiment.py               # Phase 1: Train and evaluate models
+├── run_probability_generation.py   # Phase 2/3: Generate probabilities
 └── Readme.md
 ```
-#### Added `Sentiment Analysis/notebooks` folder. Contains google colab notebooks for the experiments.
+## 3. How to Run the Analysis
 
-## How to Run the Analysis
+The **Sentiment Analysis** part is meant to run **after preprocessing**, in the following order:
 
-This project is designed to be run in a sequential, 3-phase workflow.
+1. Prepare data & embeddings  
+2. Phase 1 – Train models  
+3. Phase 2 – Run calibration  
+4. Phase 3 – Run ordinal mapping  
 
+---
 
-### Prerequisites
+### 3.1 Prerequisites
 
-You will need to have your data prepared in `data/processed/` and your GloVe embeddings in `data/embeddings/`. Ensure all paths in the `.yaml` config files point to the correct locations.
+#### Preprocessed data
 
-Download the Glove embeddings i.e. glove.6B.300d.txt and place it inside the `data/embeddings` folder.
+Make sure the CSVs produced by the preprocessing pipeline are available in:
+
+```text
+Sentiment Analysis/data/processed/
+    ├── train_clean.csv
+    ├── val_clean.csv
+    └── test_clean.csv
+```
+#### Word embeddings
+
+Download **GloVe 6B 300d** embeddings (`glove.6B.300d.txt`) and place them in:
+
+```text
+Sentiment Analysis/data/embeddings/glove.6B.300d.txt
+```
+#### Python dependencies
 
 Install the required libraries:
 
 ```bash
 pip install torch transformers pandas numpy scikit-learn pyyaml tqdm matplotlib seaborn
 ```
-### Phase 1: Train Models
+### 3.2 Phase 1 – Train Models
 
-Use `run_experiment.py` to train your models. This script reads a config file, trains the specified model, and saves the best checkpoint (based on validation loss) to `outputs/models/` and a full metrics log to `outputs/metrics/`.
+Use `run_experiment.py` to train models from YAML configurations.  
+The script:
 
-Run a specific configuration with a seed:
+- Reads a config file from `configs/`
+- Trains the specified model
+- Saves:
+  - Best model checkpoint (by validation loss) to `outputs/models/`
+  - Full metrics log to `outputs/metrics/`
+
+**Examples:**
 
 ```bash
-# Train the full fine-tuned BERT model with seed 42
+# Train fully fine-tuned BERT with seed 42
 python run_experiment.py --config configs/bert_full_finetune.yaml --seed 42
 
-# Train the 8-layer frozen BERT model with seed 123
+# Train BERT with 8 frozen layers and seed 123
 python run_experiment.py --config configs/bert_frozen_8.yaml --seed 123
 
-# Train the static CNN baseline with seed 2025
+# Train static CNN baseline with seed 2025
 python run_experiment.py --config configs/cnn_baseline.yaml --seed 2025
 
-# Train the non-static CNN with seed 42
+# Train non-static CNN with seed 42
 python run_experiment.py --config configs/cnn_non_static.yaml --seed 42
 ```
-#### A) Run Calibration Analysis (Phase 2)
+### 3.3 Phase 2 – Probability Calibration
 
-Use `calibrate.py` to test for overconfidence. This script loads the `.npz` files, fits an Isotonic Regression calibrator on the validation data, and reports the "Before" vs. "After" ECE and Brier scores on the test data. It saves a Reliability Diagram and Correction Function plot to `outputs/plots/`.
+Use `calibrate.py` to:
 
-Example:
+- Load `.npz` probability/label files produced during experiments  
+- Fit an **Isotonic Regression** calibrator on validation data  
+- Report **ECE** and **Brier scores** before vs. after calibration  
+
+It also saves:
+
+- Reliability diagram  
+- Calibration (correction function) plot  
+
+to `outputs/plots/`.
+
+**Example:**
 
 ```bash
 python src/postprocessing/calibrate.py --run_name "bert_full_finetune_seed123.pt"
 ```
-#### B) Run Ordinal Mapping Analysis (Phase 3)
+### 3.4 Phase 3 – Ordinal Mapping (1–5 Stars)
 
-Use `ordinal.py` to test the calibrated probabilities on the star-rating task. This script repeats the calibration step and then compares the performance (MAE, RMSE, etc.) of 1–5 star predictions from both uncalibrated and calibrated probabilities. It saves a final box plot to `outputs/plots/`.
+Use `ordinal.py` to evaluate calibrated probabilities in a **star-rating prediction** task.
 
-Example:
+This script:
+
+- Repeats the calibration step  
+- Maps probabilities to **1–5 star ratings**  
+- Compares **uncalibrated vs. calibrated** performance (MAE, RMSE, etc.)  
+- Saves a final comparison boxplot to `outputs/plots/`  
+
+**Example:**
 
 ```bash
 python src/postprocessing/ordinal.py --run_name "bert_full_finetune_seed123.pt"
