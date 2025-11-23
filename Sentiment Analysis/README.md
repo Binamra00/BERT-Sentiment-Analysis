@@ -41,7 +41,7 @@ compared to the uncalibrated ones.
 ## Project Structure
 
 ```text
-.
+Sentiment Analysis
 ├── configs/
 │   ├── cnn_baseline.yaml
 │   ├── cnn_non_static.yaml
@@ -59,32 +59,33 @@ compared to the uncalibrated ones.
 │       └── glove.6B.300d.txt
 │
 ├── outputs/
-│   ├── models/           # (Generated) Stores trained .pt model checkpoints
-│   ├── metrics/          # (Generated) Stores experiment .json log files
-│   ├── probabilities/    # (Generated) Stores .npz probability/label files
-│   └── plots/            # (Generated) Stores .png analysis plots
+│   ├── models/           # (Generated) Trained .pt model checkpoints
+│   ├── metrics/          # (Generated) Experiment .json logs
+│   ├── probabilities/    # (Generated) .npz probability/label files
+│   └── plots/            # (Generated) .png analysis plots
 │
 ├── src/
 │   ├── models/
-│   │   ├── bert.py           # BERT model definition with layer freezing
-│   │   └── kim_cnn.py        # Kim (2014) CNN model definition
+│   │   ├── bert.py           # BERT model with layer freezing options
+│   │   └── kim_cnn.py        # Kim (2014) CNN implementation
 │   ├── engine/
 │   │   ├── trainer.py        # train_epoch function
-│   │   └── evaluator.py      # evaluate function (calculates F1, Acc, etc.)
+│   │   └── evaluator.py      # evaluate function (F1, Acc, etc.)
 │   ├── utils/
-│   │   └── cnn_utils.py      # GloVe/Vocab helpers for the CNN
+│   │   └── cnn_utils.py      # GloVe/vocabulary helpers for CNN
 │   ├── data/
-│   │   └── dataset.py        # PyTorch SentimentDataset class
+│   │   └── dataset.py        # PyTorch SentimentDataset
 │   └── postprocessing/
-│       ├── calibrate.py      # Phase 2: Runs ECE analysis
-│       └── ordinal.py        # Phase 3: Runs 1–5 star rating analysis
+│       ├── calibrate.py      # Phase 2: ECE / calibration analysis
+│       └── ordinal.py        # Phase 3: 1–5 star rating analysis
 │
-├── run_experiment.py               # Phase 1: Main script to train models
-├── run_probability_generation.py   # Phase 2/3: Script to generate probabilities
+├── notebooks/                # Google Colab notebooks for the experiments
+│   └── ...                   # (Added) Colab-ready experiment notebooks
+│
+├── run_experiment.py               # Phase 1: Train and evaluate models
+├── run_probability_generation.py   # Phase 2/3: Generate probabilities
 └── Readme.md
 ```
-#### Added `Sentiment Analysis/notebooks` folder. Contains google colab notebooks for the experiments.
-
 ## How to Run the Analysis
 
 This project is designed to be run in a sequential, 3-phase workflow.
