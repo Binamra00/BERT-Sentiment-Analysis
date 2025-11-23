@@ -17,7 +17,7 @@ from google.colab import drive
 
 # --- 2. Set Up Project Paths ---
 # IMPORTANT: This path must match the folder structure you created.
-PROJECT_ROOT = '/content/drive/My Drive/CSE 6363 Project/Data Preprocessor'
+PROJECT_ROOT = '/content/drive/My Drive/BERT Sentiment Analysis/Data Preprocessor'
 
 # Add the project root to Python's path to allow for module imports
 # This is what allows us to use `from preprocess...` and `from resources...`
