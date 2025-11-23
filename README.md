@@ -1,5 +1,6 @@
 # Understanding the Impact of BERT Layer Freezing on Accuracy and Speed of Sentiment Analysis
 
+
 ## **IMDb Movie Review Preprocessing Pipeline**
 **This project contains a robust, modular, and reusable Python pipeline for cleaning, structuring, and preparing the Stanford Large Movie Review (IMDb) Dataset for sentiment analysis tasks. The entire pipeline is built with a focus on software engineering best practices, including the use of the Strategy and Facade design patterns to ensure the code is maintainable and extensible.**
 
@@ -88,6 +89,8 @@ validation_clean.csv: The validation set for hyperparameter tuning (2,500 review
 test_clean.csv: The final, held-out test set for unbiased evaluation (25,000 reviews).
 
 Each CSV file contains the following columns: review_text, sentiment_label, and star_rating.
+
+---
 
 ## **Sentiment Analysis**
 **This project analyzes the trade-off between model accuracy and training efficiency in sentiment analysis. It uses the IMDb movie review dataset to compare a CNN baseline against various BERT fine-tuning strategies, with a focus on layer freezing.**
@@ -231,5 +234,3 @@ Example:
 ```bash
 python src/postprocessing/ordinal.py --run_name "bert_full_finetune_seed123.pt"
 ```
-## Acknowledgement
-This project was developed in a collaborative partnership between the author and Google's Gemini. The overall architecture, design patterns, and strategic direction were conceived by the author, who then leveraged Gemini as an AI programming partner. Through an iterative process of instruction and feedback, Gemini assisted in generating, refactoring, and documenting the code to bring the author's vision to life.
