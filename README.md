@@ -282,7 +282,8 @@ The **Sentiment Analysis** part is meant to run **after preprocessing**, in the 
 1. Prepare data & embeddings  
 2. Phase 1 – Train models  
 3. Phase 2 – Run calibration  
-4. Phase 3 – Run ordinal mapping  
+4. Phase 3 – Run ordinal mapping
+5. Phase 4 – Run statistical model validation
 
 ---
 
@@ -373,4 +374,30 @@ This script:
 
 ```bash
 python src/postprocessing/ordinal.py --run_name "bert_full_finetune_seed123.pt"
+```
+### 3.5 Phase 4 – Statistical Model Validation
+
+Phase 4 takes the saved predictions from the **baseline CNN** and the **champion BERT model** and checks whether BERT’s improvements are **statistically significant** rather than due to random chance.
+
+Use your Phase 4 validation script (for example, `src/postprocessing/validations.py`) to:
+
+- Load the joint prediction/label `.npz` files for:
+  - Baseline CNN run (e.g., `cnn_baseline.pt`)
+  - Champion BERT run (e.g., `bert_full_finetune_seed123.pt`)  
+  from `outputs/probabilities/`.
+- Build a **2×2 contingency table** over the full IMDb test set and run **McNemar’s test** to compare error rates between the two models.
+- Run a **bootstrap procedure** (e.g., 1,000 resamples) on the BERT test predictions to estimate the **accuracy distribution** and a **95% confidence interval** for the true accuracy.
+- Save a compact validation summary (test statistic, p-value, confidence interval, etc.) to `outputs/metrics/` and print the results to the console.
+
+**Example:**
+
+```bash
+!python src/postprocessing/validations.py \
+    --task mcnemar \
+    --run_a "cnn_baseline.pt" \
+    --run_b "bert_full_finetune_seed123.pt"
+
+!python src/postprocessing/validations.py \
+    --task bootstrap \
+    --run_name "bert_full_finetune_seed123.pt"
 ```
