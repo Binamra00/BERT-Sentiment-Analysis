@@ -253,6 +253,28 @@ Sentiment Analysis
 ├── run_probability_generation.py   # Phase 2/3: Generate probabilities
 └── Readme.md
 ```
+### 2.4 Phase 4 – Statistical Model Validation
+
+To ensure that the performance gap between the baseline CNN (`cnn_baseline`) and the best BERT model (`bert_full_finetune_seed123`) is not due to chance, we ran a dedicated statistical validation phase:
+
+- **McNemar’s Test (paired classification test)**  
+  - Built a 2×2 contingency table over the full IMDb test set (25,000 reviews).  
+  - CNN-correct / BERT-wrong: 588 cases  
+  - CNN-wrong / BERT-correct: 2,327 cases  
+  - Test statistic: χ² ≈ 1036.24, p ≈ 2.38 × 10⁻²²⁷  
+  - This overwhelmingly rejects the null hypothesis of equal error rates and confirms that BERT’s improvements over the CNN baseline are statistically significant.
+
+- **Bootstrap accuracy confidence interval (BERT)**  
+  - Resampled the 25,000-example test set 1,000 times with replacement and recomputed accuracy on each sample.  
+  - Mean accuracy: **94.25%**  
+  - 95% confidence interval: **[93.96%, 94.53%]** (±0.29%).  
+  - This narrow interval indicates that the reported accuracy of the BERT model is stable and robust.
+
+- **Seed-variance sanity check (earlier phases)**  
+  - Layer-freezing configurations were also evaluated across multiple random seeds to verify that trends (e.g., the efficiency gains of freezing 8 layers) are consistent and not tied to a single initialization.
+
+Taken together, these checks show that the fine-tuned BERT model delivers a **real, statistically significant** improvement over the CNN baselines on IMDb, rather than a result of random variation in the test set.
+
 ## 3. How to Run the Analysis
 
 The **Sentiment Analysis** part is meant to run **after preprocessing**, in the following order:
