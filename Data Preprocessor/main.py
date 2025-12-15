@@ -12,15 +12,12 @@ import sys
 from google.colab import drive
 
 # --- 1. Mount Google Drive (if needed) ---
-# This step is often done once per Colab session.
-# If your drive is already mounted, you can comment this block out.
 # print("Mounting Google Drive...")
 # drive.mount('/content/drive')
 
 # --- 2. Set Up Project Paths ---
-# This is the root directory for your project inside Google Drive
 # IMPORTANT: This path must match the folder structure you created.
-PROJECT_ROOT = '/content/drive/My Drive/CSE 6363 Project/Data Preprocessor'
+PROJECT_ROOT = '/content/drive/My Drive/BERT Sentiment Analysis/Data Preprocessor'
 
 # Add the project root to Python's path to allow for module imports
 # This is what allows us to use `from preprocess...` and `from resources...`
@@ -29,7 +26,7 @@ if PROJECT_ROOT not in sys.path:
 
 # Define key directories
 # The raw data is in a parallel folder to the 'Data Preprocessor' folder
-RAW_DATA_PATH = '/content/drive/My Drive/CSE 6363 Project/aclImdb'
+RAW_DATA_PATH = '/content/drive/My Drive/BERT Sentiment Analysis/aclImdb'
 PROCESSED_DATA_PATH = os.path.join(PROJECT_ROOT, "processed_data")
 
 # Create the output directory if it doesn't exist
@@ -43,7 +40,6 @@ print("-" * 50)
 
 
 # --- 3. Run the Preprocessing Pipeline ---
-# Now we can import our custom pipeline module
 try:
     # Use absolute imports now that the project root is in sys.path
     from preprocess.pipeline import PreprocessingPipeline
